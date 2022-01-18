@@ -1,5 +1,6 @@
 
 const Engineer = require('../lib/Engineer.js');
+const Employee = require('../lib/Employee');
 
 test('creates an engineer object', () => {
     const engineer = new Engineer('John', '09876', 'johngithub');

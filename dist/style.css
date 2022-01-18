@@ -1,0 +1,27 @@
+.cards {
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 2px 16px;
+}
+
+.card {
+    width: 30%;
+    flex-direction: column;
+    border: 1px gray solid;
+}
+
+.card-header {
+    text-align: center;
+    height: 30%;
+    color: white;
+    background-color: blue;
+}
+
+header {
+    background-color: red;
+}
+
+header h1 {
+    color: white;
+}
