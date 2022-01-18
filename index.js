@@ -1,12 +1,12 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const Intern = require('/lib/Intern.js');
-const Manager = require('/lib/Manager.js');
-const Engineer = require('/lib/Engineer.js');
-const Employee = require('/lib/Employee.js');
+const Intern = require('./lib/Intern.js');
+const Manager = require('./lib/Manager.js');
+const Engineer = require('./lib/Engineer.js');
+// const Employee = require('./lib/Employee.js');
 
-const generateTeamPage = require("../src/page-template.js");
+const generateTeamPage = require("./src/page-template.js");
 
 // Team Array for questions and answers
 const team = [];
