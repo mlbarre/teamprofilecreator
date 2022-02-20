@@ -7,10 +7,11 @@ const Engineer = require('./lib/Engineer.js');
 // const Employee = require('./lib/Employee.js');
 
 const generateTeamPage = require("./src/page-template.js");
-const pageHTML = generateTeamPage(team);
+// const pageHTML = generateTeamPage();
 
 // Team Array for questions and answers
 const team = [];
+
 
 const setUpEmployee = () => {
     const questions = 
@@ -80,7 +81,7 @@ const setUpEmployee = () => {
         ])
         .then(answers => {
             const newIntern =  new Intern(answers.name, answers.id, answers.email, getSchool.schoolInput);
-            team.push(newIntern);
+            newIntern.push(team);
         })
         promptNewEmployee();
     }})
@@ -97,11 +98,13 @@ function promptNewEmployee() {
             choices: ['Add a new employee', "This is my team"]
         }
     ])
-    if (newEmployeeSelection.newEmployee === "Add a new employee") {
-        setUpEmployee();
-    } else {
-    createTeam();
-    }
+    .then(answers => {
+        if (newEmployeeSelection.newEmployee === "Add a new employee") {
+            setUpEmployee();
+        } else {
+        createTeam();
+        }
+    })
 };
 
 // function writeToFile(fileName, data) {
@@ -115,12 +118,10 @@ function promptNewEmployee() {
 // }
 
 function createTeam () {
-    inquirer.prompt(questions).then(answers => {
-    fs.writeFile('./dist/index.html', pageHTML, err => {
+    fs.writeFile('./dist/index.html', generateerr => {
         if (err) throw err;
     
         console.log('Perfect! Check out index.html to see your team!');
-    });
     });
 };
 
