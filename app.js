@@ -53,7 +53,7 @@ const setUpEmployee = () => {
                     const newManager = new Manager(answers.name, answers.id, answers.email, getOfficeNum.officeNum);
                     team.push(newManager);
                     })
-                },
+                }
         } else if (answers.role === "Engineer") { // * Engineer Input 
             const getGithubInput = () => {
                 inquirer
@@ -80,8 +80,9 @@ const setUpEmployee = () => {
                     },
                 ])
                 .then(answers => {
-                    const newIntern =  new Intern(answers.name, answers.id, answers.email, getSchool.schoolInput);
-                    newIntern.push(team);
+                    const newIntern =  new Intern(answers.name, answers.id, answers.email, answers.schoolInput);
+                    // newIntern.push(team);
+                    newIntern.push(getSchool());
                 })
             }
         promptNewEmployee();
@@ -136,3 +137,5 @@ function createTeam () {
 
 //     console.log('Perfect! Check out index.html to see your team!');
 // });
+
+setUpEmployee();
