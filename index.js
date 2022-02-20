@@ -34,12 +34,12 @@ const setUpEmployee = () => {
             type: "list",
             name: "role",
             message: "What is your job role?",
-            choice: ["Engineer", "Intern", "Manager"],
+            choices: ["Engineer", "Intern", "Manager"],
         },
     ])
-    
+    .then((answers) => {
     // Manager Input 
-    if (questions.role === "Manager") {
+    if (answers.role === "Manager") {
         const getOfficeNum =
         inquirer
         .prompt([
@@ -49,11 +49,11 @@ const setUpEmployee = () => {
                 message: "What is the building number?"
             },
         ])
-        const newManager = new Manager(questions.name, questions.id, questions.email, getOfficeNum.officeNum);
+        const newManager = new Manager(answers.name, answers.id, answers.email, getOfficeNum.officeNum);
         team.push(newManager);
 
     // Engineer Input 
-    } else if (questions.role === "Engineer") {
+    } else if (answers.role === "Engineer") {
         const getGithubInput = 
         inquirer
         .prompt ([
@@ -63,11 +63,11 @@ const setUpEmployee = () => {
                 message: "What is your Github username?"
             },
         ])
-        const newEngineer = new Engineer(questions.name, questions.id, questions.email, getGithubInput.githubInput);
+        const newEngineer = new Engineer(answers.name, answers.id, answers.email, getGithubInput.githubInput);
         team.push(newEngineer);
 
     // Intern Input 
-    } else if (questions.role === "Intern") {
+    } else if (answers.role === "Intern") {
         const getSchool =
         inquirer
         .prompt ([
@@ -77,9 +77,11 @@ const setUpEmployee = () => {
                 message: "What school do you go to?"
             },
         ])
-        const newIntern =  new Intern(questions.name, questions.id, questions.email, questions.schoolInput);
+        const newIntern =  new Intern(answers.name, answers.id, answers.email, getSchool.schoolInput);
         team.push(newIntern);
-    }
+
+    }})
+
 };
 
 function promptNewEmployee() {
@@ -94,9 +96,10 @@ function promptNewEmployee() {
         }
     ])
     if (newEmployeeSelection.newEmployee === "Add a new employee") {
-        return setUpEmployee();
+        setUpEmployee();
+    } else {
+    createTeam();
     }
-    return createTeam();
 };
 
 function writeToFile(fileName, data) {
@@ -109,7 +112,9 @@ function writeToFile(fileName, data) {
     })
 }
 function createTeam () {
-    inquirer.prompt(questions).then(function(data) {
-    writeToFile("./dist/index.html", generateTeamPage(data));
+    inquirer.prompt(questions).then(function(answers) {
+    writeToFile("./dist/index.html", generateTeamPage(answers));
     })
 };
+
+setUpEmployee();
