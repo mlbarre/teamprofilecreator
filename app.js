@@ -14,7 +14,6 @@ const team = [];
 
 
 const setUpEmployee = () => {
-    const questions = 
     inquirer
     .prompt([
         {
@@ -40,71 +39,75 @@ const setUpEmployee = () => {
         },
     ])
     .then((answers) => {
-    // Manager Input 
-    if (answers.role === "Manager") {
-        const getOfficeNum =
-        inquirer
-        .prompt([
-            {
-                type: "input",
-                name: "officeNum",
-                message: "What is the building number?"
-            },
-        ])
-        const newManager = new Manager(answers.name, answers.id, answers.email, getOfficeNum.officeNum);
-        team.push(newManager);
-
-    // Engineer Input 
-    } else if (answers.role === "Engineer") {
-        const getGithubInput = 
-        inquirer
-        .prompt ([
-            {
-                type: "input",
-                name: "githubInput",
-                message: "What is your Github username?"
-            },
-        ])
-        const newEngineer = new Engineer(answers.name, answers.id, answers.email, getGithubInput.githubInput);
-        team.push(newEngineer);
-
-    // Intern Input 
-    } else if (answers.role === "Intern") {
-        const getSchool =
-        inquirer
-        .prompt ([
-            {
-                type: "input",
-                name: "schoolInput",
-                message: "What school do you go to?"
-            },
-        ])
-        .then(answers => {
-            const newIntern =  new Intern(answers.name, answers.id, answers.email, getSchool.schoolInput);
-            newIntern.push(team);
-        })
+        if (answers.role === "Manager") {  // * Manager Input 
+            const getOfficeNum = () => {
+                inquirer
+                .prompt([
+                    {
+                        type: "input",
+                        name: "officeNum",
+                        message: "What is the building number?"
+                    },
+                ])
+                .then(answers => {
+                    const newManager = new Manager(answers.name, answers.id, answers.email, getOfficeNum.officeNum);
+                    team.push(newManager);
+                    })
+                },
+        } else if (answers.role === "Engineer") { // * Engineer Input 
+            const getGithubInput = () => {
+                inquirer
+                .prompt ([
+                    {
+                        type: "input",
+                        name: "githubInput",
+                        message: "What is your Github username?"
+                    },
+                ])
+                .then(answers => {
+                    const newEngineer = new Engineer(answers.name, answers.id, answers.email, getGithubInput.githubInput);
+                    team.push(newEngineer);
+                })
+            }
+        } else if (answers.role === "Intern") {
+            const getSchool = () => {
+                inquirer
+                .prompt ([
+                    {
+                        type: "input",
+                        name: "schoolInput",
+                        message: "What school do you go to?"
+                    },
+                ])
+                .then(answers => {
+                    const newIntern =  new Intern(answers.name, answers.id, answers.email, getSchool.schoolInput);
+                    newIntern.push(team);
+                })
+            }
         promptNewEmployee();
-    }})
+        }
+    })
 };
 
 function promptNewEmployee() {
-    const newEmployeeSelection = 
-    inquirer
-    .prompt([
-        {
-            type: "list",
-            name: "newEmployee",
-            message: "Are you happy with your team?",
-            choices: ['Add a new employee', "This is my team"]
-        }
-    ])
-    .then(answers => {
-        if (newEmployeeSelection.newEmployee === "Add a new employee") {
-            setUpEmployee();
-        } else {
-        createTeam();
-        }
-    })
+    const newEmployeeSelection = () => {
+        inquirer
+        .prompt([
+            {
+                type: "list",
+                name: "newEmployee",
+                message: "Are you happy with your team?",
+                choices: ['Add a new employee', "This is my team"]
+            }
+        ])
+        .then(answers => {
+            if (newEmployeeSelection.newEmployee === "Add a new employee") {
+                setUpEmployee();
+            } else {
+                createTeam();
+            }
+        })
+    }
 };
 
 // function writeToFile(fileName, data) {
@@ -118,11 +121,13 @@ function promptNewEmployee() {
 // }
 
 function createTeam () {
-    fs.writeFile('./dist/index.html', generateerr => {
+    fs.writeFile('./dist/index.html', setUpEmployee => {
+        writeToFile('./dist/index.html', generateTeamPage(answers));
         if (err) throw err;
     
         console.log('Perfect! Check out index.html to see your team!');
     });
+
 };
 
 
@@ -131,4 +136,3 @@ function createTeam () {
 
 //     console.log('Perfect! Check out index.html to see your team!');
 // });
-setUpEmployee();
