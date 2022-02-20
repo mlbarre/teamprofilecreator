@@ -7,6 +7,7 @@ const Engineer = require('./lib/Engineer.js');
 // const Employee = require('./lib/Employee.js');
 
 const generateTeamPage = require("./src/page-template.js");
+const pageHTML = generateTeamPage(team);
 
 // Team Array for questions and answers
 const team = [];
@@ -77,11 +78,12 @@ const setUpEmployee = () => {
                 message: "What school do you go to?"
             },
         ])
-        const newIntern =  new Intern(answers.name, answers.id, answers.email, getSchool.schoolInput);
-        team.push(newIntern);
-
+        .then(answers => {
+            const newIntern =  new Intern(answers.name, answers.id, answers.email, getSchool.schoolInput);
+            team.push(newIntern);
+        })
+        promptNewEmployee();
     }})
-
 };
 
 function promptNewEmployee() {
@@ -102,19 +104,30 @@ function promptNewEmployee() {
     }
 };
 
-function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, function(err) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("Yay!");
-        }
-    })
-}
+// function writeToFile(fileName, data) {
+//     fs.writeFile(fileName, data, function(err) {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             console.log("Yay!");
+//         }
+//     })
+// }
+
 function createTeam () {
-    inquirer.prompt(questions).then(function(answers) {
-    writeToFile("./dist/index.html", generateTeamPage(answers));
-    })
+    inquirer.prompt(questions).then(answers => {
+    fs.writeFile('./dist/index.html', pageHTML, err => {
+        if (err) throw err;
+    
+        console.log('Perfect! Check out index.html to see your team!');
+    });
+    });
 };
 
+
+// fs.writeFile('./dist/index.html', pageHTML, err => {
+//     if (err) throw err;
+
+//     console.log('Perfect! Check out index.html to see your team!');
+// });
 setUpEmployee();
